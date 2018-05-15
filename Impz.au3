@@ -57,6 +57,10 @@ Global $window_height = 580
 Global $WinColor = 0x191919
 Global $SC_DRAGMOVE = 0xF012
 Global $TargetLanguage = "Arabic"
+Global $UpdateReddit = False
+Global $UpdateRedditTime = 0
+Global $Subreddit = ""
+Global $RedditPost = ""
 Global $WeatherCities[0]
 Global $number = 0
 Global $oIE = null
@@ -157,6 +161,16 @@ While 1
 			Print("It Is now the " & $CurrentPrayerName & " Time")
 			SetPrayerTargetTime()
 			$Alerted[0] = 0
+		EndIf
+	EndIf
+
+	If $UpdateReddit = True And $Subreddit <> "" And @MIN >= $UpdateRedditTime Then
+		$Title = UpdateReddit($Subreddit)
+		If $RedditPost <> $Title Then
+			Print($Title)
+			TrayTip($name,$Title,3)
+			$RedditPost = $Title
+			$UpdateRedditTime = @MIN + 1
 		EndIf
 	EndIf
 
@@ -813,7 +827,9 @@ Func Respond()
 		EndIf
 	ElseIf DetectMSg("$UpdateReddit ") Then
 		$sub = StringTrimLeft($Text,14)
+		$Subreddit = $sub
 		UpdateReddit($sub)
+		Print("You should Get Reddit Updates in that Sub-Reddit Every 1 Minute")
 	ElseIf DetectMsg("don't Ignore me") Then
 		Print("I'm not Ignoring you brother")
 	ElseIf DetectMsg("why you") And DetectMsg("keep") And DetectMsg("say") And DetectMsg("samething") Then
@@ -2361,6 +2377,16 @@ Func GenerateGenreName()
 		Case 17
 			return "Rogue-Like"
 	EndSwitch
+EndFunc
+
+Func UpdateReddit($sub)
+	$UpdateReddit = True
+	$Title = LatestRedditPost($sub)
+	return $Title
+EndFunc
+
+Func StopUpdateReddit()
+	$UpdateReddit = False
 EndFunc
 
 Func LatestRedditPost($sub)

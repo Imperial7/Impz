@@ -18,3 +18,19 @@ html
 {
     margin: 0;
 }
+
+h1
+{
+    font-size: 64px;
+    margin-bottom: 8px;
+}
+
+h3
+{
+    font-size: 32px;
+}
+
+span
+{
+    color: orange;
+}
