@@ -1,0 +1,20 @@
+html
+{
+    color: white;
+    background-color: black;
+    font-family: "Cooper Std Black";
+    text-align: center;
+}
+
+#SearchBar
+{
+    width: 80%;
+    height: 48px;
+    padding: 5px;
+    margin: 0;
+}
+
+#Logo
+{
+    margin: 0;
+}
